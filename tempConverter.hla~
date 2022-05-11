@@ -1,0 +1,36 @@
+program tempConverter;
+
+#include ( "stdlib.hhf" )
+
+procedure c2k;
+
+static
+	operand:	int16	:=273;
+	operandFloat:	real32	:=273.15;
+var
+	celsius:	int16;
+	celsiusFloat:	real32;
+	kelvin:		int16;
+	kelvinFloat:	real32;
+
+
+begin c2k;
+
+	mov(0, eax);
+	stdout.put(nl, "Enter celsius: ");
+	stdin.get(celsiusFloat);
+	stdout.put(nl, "Celsius: ", celsiusFloat);
+	mov(celsiusFloat, eax);
+	stdout.put(nl, "eax: ", eax);
+	stdout.put(nl, "Operand: ", operandFloat);
+	add(operandFloat, eax);
+	mov(eax, kelvinFloat);
+	stdout.put(nl, "Kelvin: ", kelvinFloat);
+
+end c2k;
+
+begin tempConverter;
+
+c2k();
+
+end tempConverter;

@@ -1,0 +1,263 @@
+program tempConverter;
+
+#include ( "stdlib.hhf" )
+
+static
+	fcw16:	word;
+var
+	input:	char;
+
+// PROCEDURE CELSIUS TO KELVIN
+procedure c2k;
+
+static
+	operandC2K:	real32	:=273.15;
+var
+	celsiusC2K:	real32;
+	kelvinC2K:	real32;
+
+begin c2k;
+	
+	stdout.put(nl, "Enter celsius as decimal: ");
+	stdin.get(celsiusC2K);
+	stdout.put(nl, "Celsius: ", celsiusC2K);
+	
+	fld(operandC2K);
+	fld(celsiusC2K);
+	fadd(st1, st0);
+	fst(kelvinC2K);
+
+	stdout.put(nl, "Kelvin: ", kelvinC2K);
+
+end c2k;
+
+
+// PROCEDURE KELVIN TO CELSIUS
+procedure k2c;
+
+static
+	operandK2C:	real32:=	273.15;
+
+var
+	kelvinK2C:	real32;
+	celsiusK2C:	real32;
+
+begin k2c;
+
+	stdout.put(nl, "Enter kelvin as decimal: ");
+	stdin.get(kelvinK2C);
+	stdout.put(nl, "Kelvin: ", kelvinK2C);
+
+	fld(kelvinK2C);
+	fld(operandK2C);
+	fsubp();
+	fst(celsiusK2C);
+
+	stdout.put(nl, "Celsius: ", celsiusK2C);
+
+end k2c;
+
+
+// PROCEDURE CELSIUS TO FAHRENHEIT
+procedure c2f;
+
+static
+	operandOneC2F	:int16	:=32;
+	operandTwoC2F	:int16	:=9;
+	operandThreeC2F	:int16	:=5; 
+
+var
+	celsiusC2F	:real32;
+	fahrenheitC2F	:real32;
+
+begin c2f;
+
+	stdout.put(nl, "Enter celsius as decimal: ");
+	stdin.get(celsiusC2F);
+	stdout.put(nl, "Celsius: ", celsiusC2F);
+
+	fild(operandOneC2F);	// 32				|| st0 = 9	*important: the division works as following; st1/st0*
+	fld(celsiusC2F);	// the temp entered		|| st1 = 5
+	fild(operandTwoC2F);	// 9				|| st2 = temp entered
+	fild(operandThreeC2F);	// 5				|| st3 = 32
+
+	fdivp();	// poping st0 and st1, division(st1/st0) and inserting the result on st0
+	fmulp();	// poping st0 and st1, multiplication, insert back on st0
+	faddp();	// poping st0 and st1, addition, insert back on st0
+	
+	fst(fahrenheitC2F); // copying the value to variable fahrenheitC2F
+	stdout.put(nl, "Fahrenheit: ", fahrenheitC2F);
+
+end c2f;
+
+
+// PROCEDURE FAHRENHEIT TO CELSIUS
+procedure f2c;
+
+static
+	operandOneF2C	:int16	:=32;
+	operandTwoF2C	:int16	:=5;
+	operandThreeF2C	:int16	:=9;
+	minusOne	:int16	:=-1;
+
+var
+	fahrenheitF2C	:real32;
+	celsiusF2C	:real32;
+
+begin f2c;
+
+	stdout.put(nl, "Enter fahrenheit as decimal: ");
+	stdin.get(fahrenheitF2C);
+	stdout.put(nl, "Fahrenheit: ", fahrenheitF2C);
+
+	fild(operandTwoF2C);	// 5
+	fld(fahrenheitF2C);	// fahrenheitF2C
+	fild(operandOneF2C);	// 32
+
+	fsubp();
+	//fmul(st0, minusOne); // destination := destination * source
+	
+	fmulp();
+	
+	fild(operandThreeF2C);	// 9
+	fdivp();
+
+	fst(celsiusF2C);
+	stdout.put(nl, "Celsius: ", celsiusF2C);
+
+end f2c;
+
+
+// PROCEDURE FAHRENHEIT TO KELVIN
+procedure f2k;
+
+static
+	operandOneF2K:	int16	:=32;
+	operandTwoF2K:	int16	:=5;
+	operandThreeF2K:	int16	:=9;
+	operandFourF2K:	real32	:=273.15;
+	
+var
+	fahrenheitF2K:	real32;
+	celsiusF2K:	real32;
+	kelvinF2K:	real32;
+	checkpoint1	:real32;
+	checkpoint2	:real32;
+	checkpoint3	:real32;
+
+
+begin f2k;
+
+	stdout.put(nl, "Enter fahrenheit as decimal: ");
+	stdin.get(fahrenheitF2K);
+	stdout.put(nl, "Fahrenheit: ", fahrenheitF2K);
+
+	fld(operandFourF2K);	// 273.15
+	fild(operandTwoF2K);	// 5
+	fld(fahrenheitF2K);	// fahrenheitF2C
+	fild(operandOneF2K);	// 32
+
+	fsubp();
+
+	fst(checkpoint1);
+	stdout.put(nl, "checkpoint1: ", checkpoint1);
+	
+	fmulp();
+
+	fst(checkpoint2);
+	stdout.put(nl, "checkpoint2: ", checkpoint2);
+
+	fild(operandThreeF2K);	// 9
+	
+	fdivp();
+	fst(checkpoint3);
+	stdout.put(nl, "checkpoint3: ", checkpoint3);
+	
+	faddp();
+
+	fst(kelvinF2K); // what format is this? Hex or decimal?
+	stdout.put(nl, "Kelvin: ", kelvinF2K);
+
+end f2k;
+
+
+// PROCEDURE KELVIN TO FAHRENHEIT
+procedure k2f;
+
+static
+	operandOneK2F:	real32	:=273.15;
+	operandTwoK2F:	int16	:=9;
+	operandThreeK2F:	int16	:=5;
+	operandFourK2F:	int16	:=32;
+
+var
+	kelvinK2F:	real32;
+	celsiusK2F:	real32;
+	fahrenheitK2F:	real32;
+
+begin k2f;
+
+	stdout.put(nl, "Enter kelvin as decimal: ");
+	stdin.get(kelvinK2F);
+	stdout.put(nl, "Kelvin: ", kelvinK2F);
+
+	fild(operandFourK2F);	// 32
+	fild(operandTwoK2F);	// 9
+	fld(kelvinK2F);	// kelvinF2C
+	fld(operandOneK2F);	// 273.15
+
+	fsubp();
+	fmulp();
+
+	fild(operandThreeK2F);	// 5
+	
+	fdivp();
+	faddp();
+
+	fst(fahrenheitK2F);
+	stdout.put(nl, "Fahrenheit: ", fahrenheitK2F);
+
+end k2f;
+
+
+// MAIN
+begin tempConverter;
+
+	// set the FPUs control register to XXXX1000111111
+    fstcw(fcw16);
+    mov(fcw16, ax); //after storing the control word, the initial value is 027f || 0000 0010 0111 1111
+    and($003f, ax); //and operation on ax register with 0000 0000 0011 1111
+    or($0800, ax); //or operation on ax register with 0000 1000 0000 0000
+    mov(ax, fcw16);
+    fldcw(fcw16); // loading the control word for further operations
+ 
+	stdout.put(nl, "a. Celsius to Kelvin");
+	stdout.put(nl, "b. Kelvin to Celsius");
+	stdout.put(nl, "c. Celsius to Fahrenheit");
+	stdout.put(nl, "d. Fahrenheit to Celsius");
+	stdout.put(nl, "e. Fahrenheit to Kelvin");
+	stdout.put(nl, "f. Kelvin to Fahrenheit");
+	stdout.put(nl, "Enter character to choose function: ");
+	stdin.get(input);
+	if(input = 'a') then
+		c2k();
+	elseif(input = 'b') then
+		k2c();
+	elseif(input = 'c') then
+		c2f();
+	elseif(input = 'd') then
+		f2c();
+	elseif(input = 'e') then
+		f2k();
+	elseif(input = 'f') then
+		k2f();
+	endif;
+
+end tempConverter;
+
+// c2k	:	checked
+// k2c	:	checked
+// c2f	:	checked
+// f2c	:	checked
+// f2k	:	checked
+// k2f	:	checked
